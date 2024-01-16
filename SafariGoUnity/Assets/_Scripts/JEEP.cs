@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JEEP : MonoBehaviour
 {
-    public float speed = 5f;
+    public float speed = 50f;
     public float rotationSpeed = 100f;
 
     public GameObject frontRightWheel;
@@ -20,7 +20,7 @@ public class JEEP : MonoBehaviour
 
     void MoveAndRotateCar()
     {
-        float verticalInput = Input.GetAxis("Vertical");
+       /* float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
         float rotation = horizontalInput * rotationSpeed * Time.deltaTime;
@@ -72,7 +72,7 @@ public class JEEP : MonoBehaviour
         {
             // Avancer normalement si les roues sont droites
             transform.Translate(Vector3.left * forwardMovement);
-        }
+        }*/
 
     }
 }
