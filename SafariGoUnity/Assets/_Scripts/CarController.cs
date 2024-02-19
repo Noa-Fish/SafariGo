@@ -73,8 +73,21 @@ public class CarController : MonoBehaviour
     {
         if (control == ControlMode.Keyboard)
         {
-            moveInput = Input.GetAxis("Vertical");
-            steerInput = Input.GetAxis("Horizontal");
+            // Avancer ou reculer
+            if (Input.GetKey(KeyCode.O))  // Touche O pour avancer
+                moveInput = 1f;
+            else if (Input.GetKey(KeyCode.L))  // Touche L pour reculer
+                moveInput = -1f;
+            else
+                moveInput = 0f;
+
+            // Gauche ou droite
+            if (Input.GetKey(KeyCode.K))  // Touche K pour aller à gauche
+                steerInput = -1f;
+            else if (Input.GetKey(KeyCode.P))  // Touche M pour aller à droite
+                steerInput = 1f;
+            else
+                steerInput = 0f;
         }
     }
 
@@ -82,7 +95,7 @@ public class CarController : MonoBehaviour
     {
         foreach (var wheel in wheels)
         {
-            wheel.wheelCollider.motorTorque = moveInput * 600 * maxAcceleration;
+            wheel.wheelCollider.motorTorque = moveInput * 400 * maxAcceleration;
         }
     }
 
@@ -104,7 +117,7 @@ public class CarController : MonoBehaviour
         {
             foreach (var wheel in wheels)
             {
-                wheel.wheelCollider.brakeTorque = 300 * brakeAcceleration;
+                wheel.wheelCollider.brakeTorque = 400 * brakeAcceleration;
             }
         }
         else
