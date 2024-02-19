@@ -5,32 +5,33 @@ using UnityEngine;
 public class elephantMovement : MonoBehaviour
 {
     public float vitesse = 10f;
-    public float vitesseRotation = 100f; // Vitesse de rotation en degrés par seconde
+    public float rayonDetection = 1f; // Distance à laquelle l'éléphant détecte le bord du terrain
     private Animator animator;
+    private Collider terrainCollider;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        terrainCollider = GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>();
     }
 
     void Update()
     {
-        float deplacementHorizontal = Input.GetAxis("Horizontal");
-
         // Déplacement de l'éléphant
         transform.Translate(Vector3.forward * vitesse * Time.deltaTime);
 
-        // Rotation de l'éléphant vers la gauche ou la droite
-        transform.Rotate(Vector3.up * deplacementHorizontal * vitesseRotation * Time.deltaTime);
-
-        // Activer l'animation d'avancement si l'éléphant bouge
-        if (Mathf.Abs(deplacementHorizontal) > 0 || Mathf.Abs(vitesse) > 0)
+      
+            // Tourner l'éléphant dans la direction opposée
+        transform.Rotate(Vector3.up, 180f);
+       
+        if (Mathf.Abs(vitesse) > 0)
         {
-            animator.SetBool("Avancer", true);
+            // animator.SetBool("Avancer", true);
         }
         else
         {
-            animator.SetBool("Avancer", false);
+            // animator.SetBool("Avancer", false);
         }
     }
+
 }
