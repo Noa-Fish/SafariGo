@@ -3,24 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class elephantMovement : MonoBehaviour
-
 {
-    public float vitesse = 5f; // Vitesse de déplacement de l'éléphant
-
+    public float vitesse = 10f;
+    public float vitesseRotation = 100f; // Vitesse de rotation en degrés par seconde
     private Animator animator;
 
     void Start()
     {
-        // Récupérer le composant Animator
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        // Déplacer l'éléphant en avant
+        float deplacementHorizontal = Input.GetAxis("Horizontal");
+
+        // Déplacement de l'éléphant
         transform.Translate(Vector3.forward * vitesse * Time.deltaTime);
 
-        // Activer l'animation d'avancement
-        animator.SetBool("Avancer", true);
+        // Rotation de l'éléphant vers la gauche ou la droite
+        transform.Rotate(Vector3.up * deplacementHorizontal * vitesseRotation * Time.deltaTime);
+
+        // Activer l'animation d'avancement si l'éléphant bouge
+        if (Mathf.Abs(deplacementHorizontal) > 0 || Mathf.Abs(vitesse) > 0)
+        {
+            animator.SetBool("Avancer", true);
+        }
+        else
+        {
+            animator.SetBool("Avancer", false);
+        }
     }
 }

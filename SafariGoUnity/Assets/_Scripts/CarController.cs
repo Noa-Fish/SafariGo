@@ -1,36 +1,130 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class CarController : MonoBehaviour
 {
-    public Transform[] waypoints;
-    public float speed = 5f;
-    public float rotationSpeed = 2f; 
+    public enum ControlMode
+    {
+        Keyboard,
+        Buttons
+    };
 
-    private int currentWaypoint = 0;
+    public enum Axel
+    {
+        Front,
+        Rear
+    }
+
+    [Serializable]
+    public struct Wheel
+    {
+        public GameObject wheelModel;
+        public WheelCollider wheelCollider;
+        public Axel axel;
+    }
+
+    public ControlMode control;
+
+    public float maxAcceleration = 30.0f;
+    public float brakeAcceleration = 50.0f;
+
+    public float turnSensitivity = 1.0f;
+    public float maxSteerAngle = 30.0f;
+
+    public Vector3 _centerOfMass;
+
+    public List<Wheel> wheels;
+
+    float moveInput;
+    float steerInput;
+
+    private Rigidbody carRb;
+
+    void Start()
+    {
+        carRb = GetComponent<Rigidbody>();
+        carRb.centerOfMass = _centerOfMass;
+    }
 
     void Update()
     {
-        MoveToWaypoint();
+        GetInputs();
     }
 
-    void MoveToWaypoint()
+    void LateUpdate()
     {
-        if (currentWaypoint < waypoints.Length)
+        Move();
+        Steer();
+        Brake();
+    }
+
+    public void MoveInput(float input)
+    {
+        moveInput = input;
+    }
+
+    public void SteerInput(float input)
+    {
+        steerInput = input;
+    }
+
+    void GetInputs()
+    {
+        if (control == ControlMode.Keyboard)
         {
-            Vector3 targetPosition = waypoints[currentWaypoint].position;
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+            // Avancer ou reculer
+            if (Input.GetKey(KeyCode.O))  // Touche O pour avancer
+                moveInput = 1f;
+            else if (Input.GetKey(KeyCode.L))  // Touche L pour reculer
+                moveInput = -1f;
+            else
+                moveInput = 0f;
 
-            // Rotation vers la direction du waypoint
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            // Gauche ou droite
+            if (Input.GetKey(KeyCode.K))  // Touche K pour aller à gauche
+                steerInput = -1f;
+            else if (Input.GetKey(KeyCode.P))  // Touche M pour aller à droite
+                steerInput = 1f;
+            else
+                steerInput = 0f;
+        }
+    }
 
-            // Déplacement vers le waypoint
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+    void Move()
+    {
+        foreach (var wheel in wheels)
+        {
+            wheel.wheelCollider.motorTorque = moveInput * 400 * maxAcceleration;
+        }
+    }
 
-            // Si la voiture atteint le waypoint actuel, passez au suivant
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+    void Steer()
+    {
+        foreach (var wheel in wheels)
+        {
+            if (wheel.axel == Axel.Front)
             {
-                currentWaypoint++;
+                var _steerAngle = steerInput * turnSensitivity * maxSteerAngle;
+                wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, _steerAngle, 0.6f);
+            }
+        }
+    }
+
+    void Brake()
+    {
+        if (Input.GetKey(KeyCode.Space) || moveInput == 0)
+        {
+            foreach (var wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = 400 * brakeAcceleration;
+            }
+        }
+        else
+        {
+            foreach (var wheel in wheels)
+            {
+                wheel.wheelCollider.brakeTorque = 0;
             }
         }
     }
