@@ -74,17 +74,17 @@ public class CarController : MonoBehaviour
         if (control == ControlMode.Keyboard)
         {
             // Avancer ou reculer
-            if (Input.GetKeyDown(KeyCode.Alpha5))  // Touche O pour avancer
+            if (Input.GetKey(KeyCode.O))  // Touche O pour avancer
                 moveInput = 1f;
-            else if (Input.GetKeyDown(KeyCode.Alpha2))  // Touche L pour reculer
+            else if (Input.GetKey(KeyCode.L))  // Touche L pour reculer
                 moveInput = -1f;
             else
                 moveInput = 0f;
 
             // Gauche ou droite
-            if (Input.GetKeyDown(KeyCode.Alpha1))  // Touche K pour aller à gauche
+            if (Input.GetKey(KeyCode.K))  // Touche K pour aller à gauche
                 steerInput = -1f;
-            else if (Input.GetKeyDown(KeyCode.Alpha3))  // Touche M pour aller à droite
+            else if (Input.GetKey(KeyCode.P))  // Touche M pour aller à droite
                 steerInput = 1f;
             else
                 steerInput = 0f;
