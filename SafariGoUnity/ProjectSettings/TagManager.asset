@@ -8,6 +8,8 @@ TagManager:
   - FxTemporaire
   - Sphere
   - Terrain
+  - Herbe
+  - Viande
   layers:
   - Default
   - TransparentFX
