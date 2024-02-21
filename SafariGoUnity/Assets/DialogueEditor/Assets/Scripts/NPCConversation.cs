@@ -317,9 +317,7 @@ namespace DialogueEditor
 
             return conversation;
         }
-
-
-
+         
 
         //--------------------------------------
         // Construct User-Facing Conversation Object and Nodes
