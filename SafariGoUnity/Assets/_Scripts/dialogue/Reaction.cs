@@ -7,14 +7,14 @@ public class Reaction : MonoBehaviour
     [SerializeField] private NPCConversation GoodAnswerConversation; 
     [SerializeField] private NPCConversation BadAnswerConversation;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider aliment)
     {
-        if (other.CompareTag("Elephant") ||
-            other.CompareTag("Giraffe") ||
-            other.CompareTag("WhiteTiger") ||
-            other.CompareTag("Crocodile") ||
+        if (aliment.CompareTag("Herbe") ||
+            aliment.CompareTag("Viande"))
+            //other.CompareTag("WhiteTiger") ||
+            //other.CompareTag("Crocodile") ||
             //other.CompareTag("Leopard") ||
-            other.CompareTag("Lion"))
+            //other.CompareTag("Lion"))
         {
             string tagDeCeGameObject = gameObject.tag;
 
@@ -25,7 +25,7 @@ public class Reaction : MonoBehaviour
 
             if (npcConversation != null)
             {
-                CheckFoodForAnimal(tagDeCeGameObject, other.tag, GoodAnswerConversation, BadAnswerConversation);
+                CheckFoodForAnimal(tagDeCeGameObject, aliment.tag, GoodAnswerConversation, BadAnswerConversation);
                 Debug.Log("Start of the conversation.");
             }
             else
@@ -35,12 +35,14 @@ public class Reaction : MonoBehaviour
         }
         else
         {
+            Debug.Log(aliment.tag);
+            Debug.Log(aliment);
             Debug.LogWarning("Unknown animal detected.");
         }
     }
 
 
-    private void CheckFoodForAnimal(string foodTag, string animalTag, NPCConversation GoodAnswerConversation, NPCConversation BadAnswerConversation) 
+    private void CheckFoodForAnimal( string animalTag, string foodTag, NPCConversation GoodAnswerConversation, NPCConversation BadAnswerConversation) 
     {
         // Récupérer tous les GameObjects avec le tag de l'animal
         GameObject[] animals = GameObject.FindGameObjectsWithTag(animalTag);
@@ -55,7 +57,7 @@ public class Reaction : MonoBehaviour
                 Debug.Log("Herbe est bonne pour l'éléphant!");
                 ConversationManager.Instance.StartConversation(GoodAnswerConversation);
             }
-            else if (animal.CompareTag("Giraffe") && foodTag == "Herbe")
+            else if (animal.CompareTag("Girafe") && foodTag == "Herbe")
             {
                 ConversationManager.Instance.StartConversation(GoodAnswerConversation);
             }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class elephantMovement : MonoBehaviour
+public class ElephantController : MonoBehaviour
 {
     public float rotationSpeed = 20f; // Vitesse de rotation de l'éléphant
     public float moveSpeed = 5f; // Vitesse de déplacement de l'éléphant

@@ -10,6 +10,11 @@ TagManager:
   - Terrain
   - Herbe
   - Viande
+  - Elephant
+  - Girafe
+  - WhiteTiger
+  - Lion
+  - Crocodile
   layers:
   - Default
   - TransparentFX
