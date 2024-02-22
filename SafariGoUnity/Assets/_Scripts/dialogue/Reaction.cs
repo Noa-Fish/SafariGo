@@ -47,6 +47,7 @@ public class Reaction : MonoBehaviour
         // Récupérer tous les GameObjects avec le tag de l'animal
         GameObject[] animals = GameObject.FindGameObjectsWithTag(animalTag);
 
+
       
         foreach (GameObject animal in animals)
         {
@@ -58,8 +59,10 @@ public class Reaction : MonoBehaviour
                 ConversationManager.Instance.StartConversation(GoodAnswerConversation);
             }
             else if (animal.CompareTag("Girafe") && foodTag == "Herbe")
+
             {
                 ConversationManager.Instance.StartConversation(GoodAnswerConversation);
+                Debug.Log("yes.");
             }
             else if (animal.CompareTag("WhiteTiger") && foodTag == "Viande")
             {
